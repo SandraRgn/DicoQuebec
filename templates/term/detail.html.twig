@@ -1,0 +1,143 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Détail du terme| {{ parent() }} {% endblock %}
+
+{% block main %}
+    <h1 style="text-align: center">Détails</h1>
+
+    <div class="container" style="margin-top: 30px;">
+        <div class="row">
+            <div class="col-md-4">
+
+                <!-- affiche la liste de tous les termes -->
+                <div class="listeTerms">
+                    {% for t in terms %}
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a href="{{  path("term_detail",{"id": t.id}) }}" style="color: black"> {{ t.term }} </a>
+                                {% if t.votesCount !=0 %}
+                                    <span style="text-align: right; color: red">{{ t.votesCount }} <i class="fas fa-heart"></i></span>
+                                {% endif %}
+                        </ul>
+                    {% endfor %}
+                </div>
+                <br>
+
+                <!-- recherche de terme par catégorie -->
+                <div>
+                    <h5 class="couleurTitre">Recherche de termes par catégorie : </h5>
+                    {% for categorie in categories %}
+                        <ul class="list-group">
+                            <li>
+                                <a href="{{  path("categorie",{"id": categorie.id}) }}" style="color: black"> {{ categorie.name }} </a>
+                        </ul>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- espace informations sur le terme -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3>{{ term.term }}</h3>
+                            </div>
+                            <div class="col">
+                                {% if term.votesCount !=0 %}
+                                    <p style="text-align: right; color: red">{{ term.votesCount }} <i class="fas fa-heart"></i></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="couleurTitre"><i class="fas fa-search"></i> Définition(s)</h5>
+                        {{ term.definition1 }}
+                        {% if term.definition2 != null %}
+                            <br>
+                            {{ term.definition2 }}
+                        {% endif %}
+
+                        {% if term.origin != null %}
+                            <h5 class="couleurTitre"><i class="fas fa-globe-americas"></i></i> Origine</h5>
+                            {{ term.origin }}
+                        {% endif %}
+
+                        {% if term.example != null %}
+                            <h5 class="couleurTitre"><i class="fas fa-comment-alt"></i> Exemple</h5>
+                            {{ term.example }}
+                        {% endif %}
+
+                        {% if term.translation != null %}
+                            <h5 class="couleurTitre"><i class="fas fa-graduation-cap"></i> Traduction</h5>
+                            {{ term.translation }}
+                        {% endif %}
+
+                        {% if term.pronunciation != null %}
+                            <h5 class="couleurTitre"> <i class="fas fa-bullhorn"></i> Prononciation</h5>
+                            {{ term.pronunciation }}
+                        {% endif %}
+
+                        {% if term.variations!= null %}
+                            <h5 class="couleurTitre"><i class="fas fa-exchange-alt"></i> Variation(s)</h5>
+                            {{ term.variations }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- formulaire pour l'ajout d'un commentaire -->
+                {% if not is_granted('ROLE_ADMIN') %}
+                    <div class="card" style="margin-top: 30px;">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h3>Commentaires</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form action="{{ path("term_commentaire",{"id": term.id}) }}">
+                                <div class="form-group">
+                                    <h5 class="couleurTitre"> Liste des commentaires</h5>
+                                    {% for commentaire in term.commentaires %}
+                                    <li>{{ commentaire.description }} <br>
+                                        <em style="font-size: 13px;"> écrit par {{ commentaire.user.username }}, le {{ commentaire.dateRegistred |date('d-m-Y H:m') }}</em></li>
+                                    {% else %}
+                                        Pas encore de commentaires !
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group">
+                                    <h5 class="couleurTitre"> Ajouter un commentaire</h5>
+                                    <label for="pseudo">Pseudo</label>
+                                    <input type="text" class="form-control" id="username" placeholder="Pseudo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="commentaire">Description</label>
+                                    <textarea class="form-control" id="commentaire" name="commentaire" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn" style="background-color: #5DADE2; margin-top: 30px; color: #FDFEFE;"title="commentaire"><i class="fas fa-plus-circle"></i> Ajouter</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- boutons -->
+                <div style="width: 100%; text-align: center;">
+                    {%  for user in term.users %}
+                        {% if app.user == user %}
+                            <a class="btn" style="background-color: #5DADE2; margin-top: 30px; color: #FDFEFE;" href="{{ path ("term_dislike" ,{"id": term.id}) }}" title="Dislike"><i class="far fa-thumbs-down"></i> Je n'aime plus</a>
+                        {% else %}
+                            <a class="btn" style="background-color: #5DADE2; margin-top: 30px; color: #FDFEFE;" href="{{ path ("term_aimer" ,{"id": term.id}) }}" title="Aimer un terme"><i class="far fa-thumbs-up"></i> J'aime</a>
+                        {% endif %}
+                    {% else %}
+                        <a class="btn" style="background-color: #5DADE2; margin-top: 30px; color: #FDFEFE;" href="{{ path ("term_aimer" ,{"id": term.id}) }}" title="Aimer un terme"><i class="far fa-thumbs-up"></i> J'aime</a>
+                    {% endfor %}
+                    <a class="btn" style="background-color: #1ABC9C; margin-top: 30px; color: #FDFEFE;" href="{{ path ("term_modifier" ,{"id": term.id}) }}" title="Modifier un terme"><i class="fas fa-pencil-alt"></i> Modifier ce terme</a>
+                    <a class="btn" style="background-color: #E74C3C; margin-top: 30px; color: #FDFEFE;" href="{{ path ("term_supprimer" ,{"id": term.id}) }}" title="Supprimer un terme"><i class="far fa-trash-alt"></i> Supprimer ce terme</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

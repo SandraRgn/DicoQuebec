@@ -1,0 +1,25 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} {{ parent() }} | Accueil {% endblock %}
+
+{% block main %}
+
+    <h1 style="text-align: center">Les coups de coeurs</h1>
+    <div class="card listeCoupCoeur"  style="margin-top: 30px;">
+        {% for term in terms %}
+            <div class="card-header">
+                <div class="row">
+                    <div class="col">
+                        <a href="{{  path("term_detail",{"id": term.id}) }}" style="color: black; font-size: 20px;"> {{ term.term }} </a>
+                    </div>
+                    <div class="col">
+                        {% if term.votesCount !=0 %}
+                            <p style="text-align: right; color: red">{{ term.votesCount }} <i class="fas fa-heart"></i></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

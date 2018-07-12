@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} {{ parent() }} | Accueil {% endblock %}
+
+
+{% block main %}
+
+    <form action="{{ path("term_supprimer", {"id": id}) }}" method="POST">
+
+        <label for="commentaireSuppression">Merci d'indiquer la raison pour laquelle vous souhaitez supprimer ce terme :</label>
+        <textarea class="form-control" rows="5" id="commentaireSuppression" name="commentaireSuppression"></textarea>
+        <br>
+        <div class="g-recaptcha" data-sitekey="6LcOD2MUAAAAAAqwGIiR2tnXbfa4uc4iSMqVP5Wv"></div>
+        <br>
+        <button class="btn" type="submit" style="background-color: #E74C3C; color: #FDFEFE;"><i class="far fa-trash-alt"></i> Supprimer ce terme </button>
+    </form>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

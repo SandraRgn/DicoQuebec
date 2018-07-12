@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Ajouter un terme | {{ parent() }} {% endblock %}
+
+{% block main %}
+    <h1>Ajouter un terme </h1>
+
+    {%  form_theme termForm 'bootstrap_4_layout.html.twig' %}
+    {#on affiche le formulaire d'un seul coup#}
+    {{ form(termForm, {'attr':{'novalidate': 'novalidate'}}) }}
+
+{% endblock %}

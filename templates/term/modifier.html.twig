@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Modifier un terme | {{ parent() }} {% endblock %}
+
+{% block main %}
+    <h1>Modification du terme </h1>
+
+    {%  form_theme termForm 'bootstrap_4_layout.html.twig' %}
+
+    {{ form(termForm, {'attr':{'novalidate': 'novalidate'}}) }}
+{% endblock %}

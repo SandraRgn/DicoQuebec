@@ -1,0 +1,32 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} {{ parent() }} | Accueil {% endblock %}
+
+{% block main %}
+
+    <h1 style="text-align: center">Terme(s) supprimé(s)</h1>
+
+    <table class="table" style="margin-top: 30px;">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Terme</th>
+            <th scope="col">Raison de la suppression</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for historique in historiques %}
+                <th scope="row">{{ historique.id }}</th>
+                <td>{{ historique.term }}</td>
+                <td>{{ historique.commentaire }}</td>
+                <td><a class="btn" style="background-color: #1ABC9C; color: #FDFEFE;" href="{{ path ("term_restaurer" ,{"id": historique.id}) }}" title="Restaurer un terme"><i class="fas fa-battery-full"></i> Restaurer ce terme</a></td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Inscription | {{ parent() }} {% endblock %}
+
+{% block main %}
+    <h1>Inscription</h1>
+
+    {%  form_theme userForm 'bootstrap_4_layout.html.twig' %}
+
+    {{ form(userForm, {'attr':{'novalidate': 'novalidate'}}) }}
+
+{% endblock %}

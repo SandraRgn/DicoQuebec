@@ -1,0 +1,67 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} {{ parent() }} | Accueil {% endblock %}
+
+{% block main %}
+
+    <nav class="navbar navbar-light">
+        <h1>Résultat de la recherche</h1>
+        <form class="form-inline" action="{{ path('recherche')}}">
+            <input class="form-control mr-sm-2" type="search" placeholder="Rechercher..." name="q" value="{{ app.request.get('q') }}" aria-label="Search">
+            <button class="btn my-2 my-sm-0" style="color: #5DADE2;" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </nav>
+
+    <div class="container" style="margin-top: 30px;">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="listeTerms">
+                    {% for t in terms %}
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a href="{{  path("term_detail",{"id": t.id}) }}" style="color: black"> {{ t.term }} </a>
+                                {% if t.votesCount !=0 %}
+                                    <span style="text-align: right; color: red">{{ t.votesCount }} <i class="fas fa-heart"></i></span>
+                                {% endif %}
+                        </ul>
+                    {% endfor %}
+                </div>
+                <br>
+                <div>
+                    <h5 class="couleurTitre">Recherche de termes par catégorie : </h5>
+                    {% for categorie in categories %}
+                        <ul class="list-group">
+                            <li>
+                                <a href="{{  path("categorie",{"id": categorie.id}) }}" style="color: black"> {{ categorie.name }} </a>
+                        </ul>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-8 listeTerms">
+                {% if terms != null %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nom du terme</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for term in terms %}
+                            <tr>
+                                <th scope="row">{{ term.id }}</th>
+                                <td> <a href="{{  path("term_detail",{"id": term.id}) }}"> {{ term.term }}</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        Désolé aucun terme ne correspond à votre recherche !
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
