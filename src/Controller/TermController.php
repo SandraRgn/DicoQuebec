@@ -235,13 +235,17 @@ class TermController extends Controller
         $termRepo = $this->getDoctrine()->getRepository(Term::class);
         $terms = $termRepo->findTermsCategorie($id);
 
+        $listeTerms = $termRepo->findBy(
+            array(),
+            array('term' => 'ASC'));
+
         $cateRepo = $this->getDoctrine()->getRepository(Categorie::class);
         $categories = $cateRepo->findAll();
 
 
 
         //return new Response("yo!");
-        return $this->render("term/rechercheCategorie.html.twig", ["terms" => $terms, "categories" => $categories]);
+        return $this->render("term/rechercheCategorie.html.twig", ["terms" => $terms, "categories" => $categories, "listeTerms" => $listeTerms]);
     }
 
 

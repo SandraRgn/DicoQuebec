@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="listeTerms">
-                    {% for t in terms %}
+                    {% for t in listeTerms %}
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <a href="{{  path("term_detail",{"id": t.id}) }}" style="color: black"> {{ t.term }} </a>
