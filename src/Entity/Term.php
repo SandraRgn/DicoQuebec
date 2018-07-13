@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Term extends TermParent
 {
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="term")
+     * @ORM\OneToMany(targetEntity="App\Entity\Commentaire", mappedBy="term", cascade={"remove"})
      */
     private $commentaires;
 

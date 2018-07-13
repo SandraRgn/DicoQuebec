@@ -27,10 +27,12 @@
                     {% endfor %}
                 </div>
                 <br>
+                <!-- recherche de terme par catégorie -->
                 <div>
+                    <h5 class="couleurTitre">Recherche de termes par catégorie : </h5>
                     {% for categorie in categories %}
                         <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li>
                                 <a href="{{  path("categorie",{"id": categorie.id}) }}" style="color: black"> {{ categorie.name }} </a>
                         </ul>
                     {% endfor %}
